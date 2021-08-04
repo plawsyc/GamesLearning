@@ -33,4 +33,10 @@
     **剪切**：
 
     <img src="image\剪切矩阵.png" width="200px"/>
+### **4.2 平移变换**：升维——>引入第三个维度：
 
+<img src="image\平移变换1.png" width="200px">
+
+
+
+ <img src="image\平移变换2.png" width="300px"/>
