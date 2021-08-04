@@ -36,7 +36,9 @@
 ### **4.2 平移变换**：升维——>引入第三个维度：
 
 <img src="image\平移变换1.png" width="200px">
+	
+这里第三个坐标只对点有用（为1），对向量没用（为0），因为向量具有平移不变性.
 
 
 
- <img src="image\平移变换2.png" width="300px"/>
+ <img src="image\平移变换2.png" width="400px"/>
