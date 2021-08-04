@@ -2,5 +2,12 @@
 ## 1、图形学中一般向量表示为列向量
 ## 2、当一个坐标系的坐标轴存在$x\times y=z$，则称该坐标系为右手坐标系，注意课程中默认坐标系为右手系，而OpenGL等图形API中默认为左手坐标系，也即$x\times y=−z$的坐标系.
 ## 3、向量叉乘的应用：
-* 判断左右，例如，在右手系的XOY平面上，若两个向量![](http://latex.codecogs.com/gif.latex?\textbf{\emph{a}})，![](http://latex.codecogs.com/gif.latex?\textbf{\emph{b}})有![](http://latex.codecogs.com/gif.latex?\textbf{\emph{a}}\times&space;\textbf{\emph{b}})的结果的![](http://latex.codecogs.com/gif.latex?\textbf{\emph{z}})分量为正，则![](http://latex.codecogs.com/gif.latex?\textbf{\emph{b}})在![](http://latex.codecogs.com/gif.latex?\textbf{\emph{a}})左边，否则在右边。
-![](叉乘应用1.png)
+* 判断左右，例如，在右手系的XOY平面上，若两个向量![](http://latex.codecogs.com/gif.latex?\vec{a})，$\vec{b}$有$\vec{a}\times \vec{b}$的结果的$z$分量为正，则$\vec{b}$在$\vec{a}$左边，否则在右边。
+<img src="叉乘应用1.png" width="400px"/>
+* 进而，可以利用上述性质判断一个点是否在三角形的内部（用于光栅化）
+
+   例如，对于逆时针描述的三角形ABC，若AP在AB左侧，BP在BC左侧，CP在CA左侧，则P在ABC内部，反之若任意AP、BP、CP在对应边的右侧，则认为其在三角形外。
+
+  当然若按顺时针A-C-B的顺序构造三角形，则需满足AP，CP，BP分别在AC，CB，BA的右侧。
+  所以，判断一个点是否在三角形内侧，可以通过判断它与顶点构成的向量是否均在三条对应边的同侧（逆时针为左侧，顺时针为右侧）来实现。
+  <img src="叉乘应用2.png" width="200px"/>
