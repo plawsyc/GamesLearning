@@ -39,6 +39,19 @@
 	
 这里第三个坐标只对点有用（为1），对向量没用（为0），因为向量具有平移不变性.
 
+<img src="image\平移变换2.png" width="400px"/>
 
+>**注：对于一个平移与线性变换组合的矩阵，其表示的是先线性变换后平移变换：**
+    
+> <img src="image\先线性后平移.png" width="300px"/>
 
- <img src="image\平移变换2.png" width="400px"/>
+* 形象理解：
+
+    上述变换实际是将向量空间由二维坐标映射到了三维空间，然后做了一个X，Y轴不变(或线性变换)，使Z轴向XOY平面靠近/远离的剪切操作：
+
+    <img src="image/升维剪切.png" width="450px">
+
+    	
+	对应point也跟随坐标系的位置发生了剪切变化：![](http://latex.codecogs.com/gif.latex?z)坐标仍为1，![](http://latex.codecogs.com/gif.latex?x)坐标与![](http://latex.codecogs.com/gif.latex?y)坐标跟随基向量分别改变了![](http://latex.codecogs.com/gif.latex?t_x)与![](http://latex.codecogs.com/gif.latex?t_y) 。此时其横坐标与纵坐标就分别是![](http://latex.codecogs.com/gif.latex?x+t_x) 与![](http://latex.codecogs.com/gif.latex?y+t_y) 。
+* 为什么第三个坐标对point是1，对vector是0？：
+   <img src="image/vec&point1.png" width="200px">
