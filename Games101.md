@@ -1,8 +1,8 @@
 # Games101笔记
 ## 1、图形学中一般向量表示为列向量
-## 2、当一个坐标系的坐标轴存在$x\times y=z$，则称该坐标系为右手坐标系，注意课程中默认坐标系为右手系，而OpenGL等图形API中默认为左手坐标系，也即$x\times y=−z$的坐标系.
+## 2、当一个坐标系的坐标轴存在![](http://latex.codecogs.com/svg.latex?x\times&space;y=z)，则称该坐标系为右手坐标系，注意课程中默认坐标系为右手系，而OpenGL等图形API中默认为左手坐标系，也即![](http://latex.codecogs.com/svg.latex?x\times&space;y=-z)的坐标系.
 ## 3、向量叉乘的应用：
-* 判断左右，例如，在右手系的XOY平面上，若两个向量![](http://latex.codecogs.com/gif.latex?\vec{a})，$\vec{b}$有$\vec{a}\times \vec{b}$的结果的$z$分量为正，则$\vec{b}$在$\vec{a}$左边，否则在右边。
+* 判断左右，例如，在右手系的XOY平面上，若两个向量![](http://latex.codecogs.com/gif.latex?\vec{a})，![](http://latex.codecogs.com/gif.latex?\vec{b})有![](http://latex.codecogs.com/gif.latex?\vec{a}\times&space;\vec{b})的结果的![](http://latex.codecogs.com/gif.latex?z)分量为正，则![](http://latex.codecogs.com/gif.latex?\vec{b})在![](http://latex.codecogs.com/gif.latex?\vec{a})左边，否则在右边。
 
    <img src="image\叉乘应用1.png" width="400px"/>
 * 进而，可以利用上述性质判断一个点是否在三角形的内部（用于光栅化）
