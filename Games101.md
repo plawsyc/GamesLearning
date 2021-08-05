@@ -49,9 +49,22 @@
 
     上述变换实际是将向量空间由二维坐标映射到了三维空间，然后做了一个X，Y轴不变(或线性变换)，使Z轴向XOY平面靠近/远离的剪切操作：
 
-    <img src="image/升维剪切.png" width="450px">
+    <img src="image/升维剪切.png" width="450px"/>
 
     	
 	对应point也跟随坐标系的位置发生了剪切变化：![](http://latex.codecogs.com/gif.latex?z)坐标仍为1，![](http://latex.codecogs.com/gif.latex?x)坐标与![](http://latex.codecogs.com/gif.latex?y)坐标跟随基向量分别改变了![](http://latex.codecogs.com/gif.latex?t_x)与![](http://latex.codecogs.com/gif.latex?t_y) 。此时其横坐标与纵坐标就分别是![](http://latex.codecogs.com/gif.latex?x+t_x) 与![](http://latex.codecogs.com/gif.latex?y+t_y) 。
 * 为什么第三个坐标对point是1，对vector是0？：
-   <img src="image/vec&point1.png" width="200px">
+
+   <img src="image/vec&point1.png" width="200px"/>
+
+    容易看出，这很方便定义上述的三种操作：0+0=0；1-1=0；1+0=1
+
+    那么point+point的结果1+1=2如何解读呢？对这一操作有：
+
+    <img src="image/point+point.png" width="300px"/>
+
+    因此point+point得到的结果就是这两个点的中点。
+
+## 5、旋转矩阵与正交矩阵
+
+### **5.1 旋转**
