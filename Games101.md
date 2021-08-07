@@ -1,4 +1,5 @@
 # Games101笔记
+# **Leture01~Leture03**
 ## 1、图形学中一般向量表示为列向量
 ## 2、当一个坐标系的坐标轴存在![](http://latex.codecogs.com/svg.latex?x\times&space;y=z)，则称该坐标系为右手坐标系，注意课程中默认坐标系为右手系，而OpenGL等图形API中默认为左手坐标系，也即![](http://latex.codecogs.com/svg.latex?x\times&space;y=-z)的坐标系.
 ## 3、向量叉乘的应用：
@@ -41,9 +42,8 @@
 
 <img src="image\平移变换2.png" width="400px"/>
 
->**注：对于一个平移与线性变换组合的矩阵，其表示的是先线性变换后平移变换：**
-    
-> <img src="image\先线性后平移.png" width="300px"/>
+>**注：对于一个平移与线性变换组合的矩阵，其表示的是先线性变换后平移变换：** \
+<img src="image\先线性后平移.png" width="300px"/>
 
 * 形象理解：
 
@@ -65,6 +65,15 @@
 
     因此point+point得到的结果就是这两个点的中点。
 
-## 5、旋转矩阵与正交矩阵
+# **Leture 04: Transfromation cont.**
+## 5、正交矩阵特性解读与旋转矩阵
 
-### **5.1 旋转**
+>正交矩阵的特性：\
+1、**矩阵每列向量与自己点乘为1，与其他列向量之间点乘为0。**\
+2、对于正交矩阵![](http://latex.codecogs.com/gif.latex?M),其与转置矩阵相乘![](http://latex.codecogs.com/gif.latex?MM^T)对角线上元素为列向量自乘，非对角线元素为列向量互乘，因此![](http://latex.codecogs.com/gif.latex?MM^T=E)。也即：**正交矩阵的逆矩阵与转置矩阵相同**。
+
+将正交矩阵看作应用于任一列向量上的线性变换，则基于上述**特性1**，变换的后的向量空间的基向量满足1）单位向量、2）相互正交。因此，显然**单一的旋转变换是正交变换**，同样容易想到，**镜像变换（将某一基向量方向取反）也是正交变换**。
+
+正交矩阵的**特性2**可应用于旋转矩阵的逆变换——已知某个旋转矩阵![](http://latex.codecogs.com/gif.latex?R_\theta), 其对应的逆旋转变换与转置矩阵相同：![](http://latex.codecogs.com/gif.latex?R_{-\theta}=R_\theta^T)。
+
+<img src="image/正交矩阵与旋转变换.png" width="300px">
