@@ -96,3 +96,29 @@
 显然，三维空间中绕某一坐标轴的旋转矩阵，是该坐标轴作为基向量不变，另外两个基向量在对应基平面内进行二维旋转所构成的。
     > 注：**绕Y轴旋转后得到的基向量与绕其他轴得到的基向量互逆，这是因为X轴与Z轴构成的基平面是ZOX平面而非XOZ平面，实际的旋转空间中坐标轴的顺序与4*4矩阵中坐标轴的排列顺序相反。**
 
+* **复合旋转**
+
+    * **欧拉角（Euler angles）**
+
+        <img src="image/复合旋转1.png" width="300px"/>
+
+        **Pitch（抬头低头）、Roll（沿轴翻滚）、Yaw（左右旋转）**:
+
+        <img src="image/欧拉角.png" width="300px"/>
+
+    * **欧拉角（Euler angles）**    
+    * **罗德里格斯旋转公式（Rodrigues' Rotation Formula）**
+
+        <img src="image/罗德里格斯旋转公式.png" width="600px"/>
+
+        该公式表示了围绕 **经过坐标原点的轴![](http://latex.codecogs.com/gif.latex?\vec{n})** 旋转![](http://latex.codecogs.com/gif.latex?\alpha)角度的旋转矩阵。
+
+        >注：如果想绕不经过坐标原点的轴旋转，则应该先将旋转轴平移变换到坐标原点处，然后应用罗德里格斯旋转矩阵，然后再平移回原来的位置。
+
+        推导：
+
+        <img src="image/推导1.jpg" width="600px"/>
+
+        <img src="image/推导2.jpg" width="600px"/>
+
+        >注：注意体会推导Step1过程中向量点积与矩阵变换对偶性的应用；以及公式最后一项N为向量叉积的矩阵表示形式。
