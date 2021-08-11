@@ -122,3 +122,36 @@
         <img src="image/推导2.jpg" width="600px"/>
 
         >注：注意体会推导Step1过程中向量点积与矩阵变换对偶性的应用；以及公式最后一项N为向量叉积的矩阵表示形式。
+    * **四元数** 待补充——————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+## 7、Viewing Transformation（观测变换）
+### 7.1 **Model Transformation(模型变换)**
+### 7.2 **View/Camera Transformation(视图变换)**
+* **定义相机**
+
+    position：相机的**位置向量**![](http://latex.codecogs.com/gif.latex?\vec{e})
+
+    Look At Direction：相机的**朝向**![](http://latex.codecogs.com/gif.latex?\hat{g})
+
+    Up Direction：相机的**法向量**![](http://latex.codecogs.com/gif.latex?\hat{t})(与![](http://latex.codecogs.com/gif.latex?\hat{g})正交)
+
+    <img src="image/视图变换1.png" width=300px>
+
+* **将物体坐标变换到相机视角**
+
+    想象相机和物体都处在世界坐标系下，相机和物体的位置都是依据世界坐标系而言的。
+
+    我们现在要做的事情就是将物体的位置用相机的视角描述，这本质上是**世界坐标系**到**相机坐标系**（相机为原点，![](http://latex.codecogs.com/gif.latex?Y)轴为![](http://latex.codecogs.com/gif.latex?\hat{t})，![](http://latex.codecogs.com/gif.latex?Z)轴为![](http://latex.codecogs.com/gif.latex?-\hat{g})，![](http://latex.codecogs.com/gif.latex?X)轴为![](http://latex.codecogs.com/gif.latex?Y\times{Z})）的坐标变换。
+
+    <img src="image/视图变换4.png" width=500px>
+
+    由于相机位置与坐标原点并不重合，无法直接使用基变换，因此首先要将相机与物体同时移动![](http://latex.codecogs.com/gif.latex?-\vec{e})，
+
+    <img src="image/视图变换2.png" width=400px>
+
+    然后应用基变换矩阵：
+
+    <img src="image/视图变换3.png" width=500px>
+
+    > 注：基变换相关知识可参考《线性变换的本质》，设物体在相机坐标系下的向量坐标为![](http://latex.codecogs.com/gif.latex?\vec{c}), 在世界坐标系下向量坐标为![](http://latex.codecogs.com/gif.latex?\vec{w})，那么存在基变换![](http://latex.codecogs.com/gif.latex?V)，能够将向量在相机坐标系中的描述转变为世界坐标系下的描述，即![](http://latex.codecogs.com/gif.latex?V\vec{c}=\vec{w})，那么显然，![](http://latex.codecogs.com/gif.latex?V)的列向量由![](http://latex.codecogs.com/gif.latex?\hat{g}\times{\hat{t}})、![](http://latex.codecogs.com/gif.latex?\hat{t})、![](http://latex.codecogs.com/gif.latex?-\hat{g})组成。而我们要求的从世界坐标系到相机坐标系的基变换矩阵![](http://latex.codecogs.com/gif.latex?R_{view})应满足![](http://latex.codecogs.com/gif.latex?\vec{c}=R_{view}\vec{w})，所以显然![](http://latex.codecogs.com/gif.latex?R_{view}=V^{-1}=V^{T})(这一步的基变换只涉及旋转，而前面讲过，旋转矩阵是正交的)。
+### 7.3 **Projection Transformation(投影变换)**
