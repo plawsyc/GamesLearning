@@ -168,4 +168,70 @@
 
     > 注2：这也正好解释了之前的视图变换中摄像机的LookAt向量为何对应 **-Z** 方向，这是因为在 **右手系** 中，朝 **-Z** 方向看去看到的正好是XOY坐标系，取得物体的正交投影只要去掉物体投影变换后的Z坐标就可以了。也正因如此，OpenGL等图形API中使用的是**左手系**。
 
-* 透视投影(Perspective)
+    > 注3：注意理解投影变换与视图变换的不同作用，上图中空间中的长方体就是摄像机能够呈相的全部区域，因此正好要投影到![](http://latex.codecogs.com/gif.latex?[-1,1]^3)的正方体上。(存疑)
+
+* **透视投影(Perspective)**
+
+   为了方便理解，我们将透视投影分为两步，一是**挤压**/**裁剪**，变换用矩阵![](http://latex.codecogs.com/gif.latex?M_{persp->ortho})表示，二是正交投影，变换用![](http://latex.codecogs.com/gif.latex?M_{ortho})来表示。
+
+    <img src="image/透视投影1.png" width=500px>
+
+   * **挤压**
+
+        挤压是将由近平面![](http://latex.codecogs.com/gif.latex?n)与远平面![](http://latex.codecogs.com/gif.latex?f)包围成的楔形体挤压成长方体的过程。
+
+        **近平面上的点坐标保持不变，远平面上的点的![](http://latex.codecogs.com/gif.latex?z)坐标保持不变。远平面的中心点保持不变。**
+
+        <img src="image/透视投影2.png" width=500px>
+
+        通过图片看到，远平面上点挤压后的![](http://latex.codecogs.com/gif.latex?x)与![](http://latex.codecogs.com/gif.latex?y)坐标与原坐标的比例关系可通过相似三角形得到。
+        
+        从而从近平面到远平面上任意一点的坐标经过挤压有如下变换：
+        
+        <img src="image/透视投影3.png" width=500px>
+
+        > 注：为什么要变换后的坐标要乘![](http://latex.codecogs.com/gif.latex?z)，这是为了使之后的投影变换矩阵中不出现变量，从而方便计算机的存储和运算。
+
+        根据变换的前后坐标，容易写出不完全的变换矩阵：
+
+        <img src="image/透视投影4.png" width=500px>
+
+        > 注：最后一行为什么是![](http://latex.codecogs.com/gif.latex?[0,0,1,0]),而不是![](http://latex.codecogs.com/gif.latex?[0,0,0,z])，这与上一个注中的理由相同，就是投影矩阵中不应该出现变量。而这一步之所以能这样表示也是因为在上一步中的齐次坐标乘了![](http://latex.codecogs.com/gif.latex?z)。
+
+        现在只需要求投影矩阵的第三行：依旧通过能够确定的点坐标进行反推：
+
+        对于近平面上的点，有：![](http://latex.codecogs.com/gif.latex?z=n)，所以可以确定其变换前后的坐标：
+
+        <img src="image/透视投影5.png" width=300px>
+
+        变换后的![](http://latex.codecogs.com/gif.latex?z)坐标为![](http://latex.codecogs.com/gif.latex?n^2)，与![](http://latex.codecogs.com/gif.latex?x)、![](http://latex.codecogs.com/gif.latex?y)无关，那么其对应的挤压矩阵的第三行的前两个数一定是0，那么还只需求![](http://latex.codecogs.com/gif.latex?A)和![](http://latex.codecogs.com/gif.latex?B)：
+
+        <img src="image/透视投影6.png" width=500px>
+
+        这时需要另外一个约束条件，远平面上的点的![](http://latex.codecogs.com/gif.latex?z)坐标也不变，从而有：
+
+        <img src="image/透视投影7.png" width=500px>
+
+        从而解出：
+
+        <img src="image/透视投影8.png" width=400px>
+
+        将其带回![](http://latex.codecogs.com/gif.latex?M_{persp->ortho})挤压矩阵，再乘以正交投影矩阵就可以得到透视投影矩阵：
+
+    
+        <img src="https://latex.codecogs.com/svg.image?M_{persp->ortho}=\begin{pmatrix}n&0&0&0\\0&n&0&0\\0&0&n&plus;f&-nf\\0&0&1&0\\\end{pmatrix}" width=400px> .
+
+        <img src="image/透视投影9.png" width=300px> 
+        
+        > **透视投影中只有近平面与远平面的![](http://latex.codecogs.com/gif.latex?z)坐标不变，位于二者之间平面上的点的![](http://latex.codecogs.com/gif.latex?z)坐标应该怎样变换呢？**
+
+        >对于近平面与远平面中任意一点![](http://latex.codecogs.com/gif.latex?[x,y,z,1])，对其应用挤压变换有：\
+        <img src="https://latex.codecogs.com/svg.image?\begin{pmatrix}n&0&0&0\\0&n&0&0\\0&0&n&plus;f&-nf\\0&0&1&0\\\end{pmatrix}\begin{pmatrix}x\\y\\z\\1\end{pmatrix}=\begin{pmatrix}nx\\ny\\(n&plus;f)z-nf\\z\end{pmatrix}==\begin{pmatrix}nx/z\\ny/z\\n&plus;f-nf/z\\1\end{pmatrix}" />
+
+        >将其第三项与原![](http://latex.codecogs.com/gif.latex?z)坐标对比，<img src="https://latex.codecogs.com/svg.image?n&plus;f-nf/z-z=-(z-f)(z-n)/z>0" title="n+f-nf/z-z=-(z-f)(z-n)/z>0" />，所以经过挤压的中间点相比原来要更加靠近近平面(在右手系中，相机朝向为![](http://latex.codecogs.com/gif.latex?-\vec{z})轴，所以点的![](http://latex.codecogs.com/gif.latex?z)坐标越大距离相机越近)。
+
+        >事实上，这一结果也符合“挤压”的形象理解，想象一下，保持小端不变，挤压一块楔形海绵的大端，是不是除了横向位移固定的大端和小端平面，内部所有的点都有向小端横向移动的倾向？
+
+        
+
+
