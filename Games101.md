@@ -154,4 +154,18 @@
     <img src="image/视图变换3.png" width=500px>
 
     > 注：基变换相关知识可参考《线性变换的本质》，设物体在相机坐标系下的向量坐标为![](http://latex.codecogs.com/gif.latex?\vec{c}), 在世界坐标系下向量坐标为![](http://latex.codecogs.com/gif.latex?\vec{w})，那么存在基变换![](http://latex.codecogs.com/gif.latex?V)，能够将向量在相机坐标系中的描述转变为世界坐标系下的描述，即![](http://latex.codecogs.com/gif.latex?V\vec{c}=\vec{w})，那么显然，![](http://latex.codecogs.com/gif.latex?V)的列向量由![](http://latex.codecogs.com/gif.latex?\hat{g}\times{\hat{t}})、![](http://latex.codecogs.com/gif.latex?\hat{t})、![](http://latex.codecogs.com/gif.latex?-\hat{g})组成。而我们要求的从世界坐标系到相机坐标系的基变换矩阵![](http://latex.codecogs.com/gif.latex?R_{view})应满足![](http://latex.codecogs.com/gif.latex?\vec{c}=R_{view}\vec{w})，所以显然![](http://latex.codecogs.com/gif.latex?R_{view}=V^{-1}=V^{T})(这一步的基变换只涉及旋转，而前面讲过，旋转矩阵是正交的)。
-### 7.3 **Projection Transformation(投影变换)**
+
+### 7.3 **Projection Transformation(投影变换)**：3D->2D
+<img src="image/投影变换1.png" width=500px>
+
+* **正交投影(Orthographic)**
+
+    通过[l,r],[b,t],[f,n]六个值定义了一个空间中的长方体，然后将它投影到一个中心位于原点的![](http://latex.codecogs.com/gif.latex?[-1,1]^3)的正方体上，
+
+    <img src="image/正交投影.png" width=500px>
+
+    > 注1：摄像机沿 **-Z** 方向朝物体看去，因此f(far)相比n(near)要离得原点近；
+
+    > 注2：这也正好解释了之前的视图变换中摄像机的LookAt向量为何对应 **-Z** 方向，这是因为在 **右手系** 中，朝 **-Z** 方向看去看到的正好是XOY坐标系，取得物体的正交投影只要去掉物体投影变换后的Z坐标就可以了。也正因如此，OpenGL等图形API中使用的是**左手系**。
+
+* 透视投影(Perspective)
