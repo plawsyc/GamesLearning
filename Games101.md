@@ -125,8 +125,8 @@
     * **四元数** 待补充——————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 ## 7、Viewing Transformation（观测变换）
-### 7.1 **Model Transformation(模型变换)**
-### 7.2 **View/Camera Transformation(视图变换)**
+### **7.1 Model Transformation(模型变换)**
+### **7.2 View/Camera Transformation(视图变换)**
 * **定义相机**
 
     position：相机的**位置向量**![](http://latex.codecogs.com/gif.latex?\vec{e})
@@ -155,7 +155,7 @@
 
     > 注：基变换相关知识可参考《线性变换的本质》，设物体在相机坐标系下的向量坐标为![](http://latex.codecogs.com/gif.latex?\vec{c}), 在世界坐标系下向量坐标为![](http://latex.codecogs.com/gif.latex?\vec{w})，那么存在基变换![](http://latex.codecogs.com/gif.latex?V)，能够将向量在相机坐标系中的描述转变为世界坐标系下的描述，即![](http://latex.codecogs.com/gif.latex?V\vec{c}=\vec{w})，那么显然，![](http://latex.codecogs.com/gif.latex?V)的列向量由![](http://latex.codecogs.com/gif.latex?\hat{g}\times{\hat{t}})、![](http://latex.codecogs.com/gif.latex?\hat{t})、![](http://latex.codecogs.com/gif.latex?-\hat{g})组成。而我们要求的从世界坐标系到相机坐标系的基变换矩阵![](http://latex.codecogs.com/gif.latex?R_{view})应满足![](http://latex.codecogs.com/gif.latex?\vec{c}=R_{view}\vec{w})，所以显然![](http://latex.codecogs.com/gif.latex?R_{view}=V^{-1}=V^{T})(这一步的基变换只涉及旋转，而前面讲过，旋转矩阵是正交的)。
 
-### 7.3 **Projection Transformation(投影变换)**：3D->2D
+### **7.3 Projection Transformation(投影变换)**：3D->2D
 <img src="image/投影变换1.png" width=500px>
 
 * **正交投影(Orthographic)**
@@ -223,6 +223,8 @@
 
         <img src="image/透视投影9.png" width=300px> 
         
+        > 注：显然，**透视投影变换不是仿射变换**，因为它不能通过线性变换+平移得到。
+
         > **透视投影中只有近平面与远平面的![](http://latex.codecogs.com/gif.latex?z)坐标不变，位于二者之间平面上的点的![](http://latex.codecogs.com/gif.latex?z)坐标应该怎样变换呢？**
 
         >对于近平面与远平面中任意一点![](http://latex.codecogs.com/gif.latex?[x,y,z,1])，对其应用挤压变换有：\
@@ -231,7 +233,115 @@
         >将其第三项与原![](http://latex.codecogs.com/gif.latex?z)坐标对比，<img src="https://latex.codecogs.com/svg.image?n&plus;f-nf/z-z=-(z-f)(z-n)/z>0" title="n+f-nf/z-z=-(z-f)(z-n)/z>0" />，所以经过挤压的中间点相比原来要更加靠近近平面(在右手系中，相机朝向为![](http://latex.codecogs.com/gif.latex?-\vec{z})轴，所以点的![](http://latex.codecogs.com/gif.latex?z)坐标越大距离相机越近)。
 
         >事实上，这一结果也符合“挤压”的形象理解，想象一下，保持小端不变，挤压一块楔形海绵的大端，是不是除了横向位移固定的大端和小端平面，内部所有的点都有向小端横向移动的倾向？
+# **Leture 05: Rasterization（Triangles）**
+## 8、透视投影补充：范围定义
+* 透视投影中定义锥形体范围：**视角(FOV)** 和 **宽高比(aspect ratio)** 
+    
+    前文中我们通过近平面与远平面只定义了![](http://latex.codecogs.com/gif.latex?z)方向的投影范围，![](http://latex.codecogs.com/gif.latex?x)与![](http://latex.codecogs.com/gif.latex?y)方向上的投影应该怎么定义呢？
 
+    与正交投影中直接定义![](http://latex.codecogs.com/gif.latex?[l,r])与![](http://latex.codecogs.com/gif.latex?[b,t])平面不同，透视投影的范围要靠摄像机的 **视角（Field of View，FOV）** 与 **屏幕的宽高比（(aspect ratio）** 二者定义。
+
+    <img src="image/透视锥体1.png" width=400px>
+
+    > 视角分为横向视角fovX与竖向视角fovY，这两个视角中的任一个与宽高比组合都能完整描述一个透视锥体。这里使用的是fovY。
+
+    假定透视远平面根据![](http://latex.codecogs.com/gif.latex?z)轴中心对称，![](http://latex.codecogs.com/gif.latex?y_{max}=t)，![](http://latex.codecogs.com/gif.latex?x_{max}=r)。那么fovY与aspect ratio可以按下图计算：
+
+    <img src="image/透视锥体2.png" width=600px>
+
+
+## 9、光栅化
+### **9.1 屏幕与光栅**
+
+* 图形学中的理想屏幕：
+    * 一个像素点的二维数组
+    * 二维数组的大小：分辨率（resolution）
+    * 典型的光栅成像设备
+* 光栅化的含义
+    * 德语中光栅（Raster）就是屏幕（screen）的意思
+    * 光栅化（Rasterize）就是把东西画在屏幕上
+* 像素（Pixel）的意义
+    * 是picture element的缩写
+    * 认为像素是成像的最小方块
+    * 暂时认为一个像素内部颜色一致（当然事实不一定是这样）
+* 屏幕空间定义
+    * 这里假定屏幕原点放置在左下角
+    <img src="image/屏幕空间.png" width=600px>
+
+### **9.2 视口变换（Viewport transform matrix）**
+
+我们之前经过一系列变换将物体投影到了![](http://latex.codecogs.com/gif.latex?[-1,1]^3)的正方体上，现在我们则要将这个正方体转换到屏幕上，这一变换就是**视口变换**：
+
+首先，暂时丢弃正方体的![](http://latex.codecogs.com/gif.latex?z)坐标不考虑。
+
+这样就是将![](http://latex.codecogs.com/gif.latex?[-1,1]^2)的平面投影到![](http://latex.codecogs.com/gif.latex?[0,width]\times{[0,height]})的屏幕上，容易写出对应矩阵（先缩放后平移）：
+
+<img src="image/视口变换.png" width=400px>
+
+### **9.3 显示设备**
+* 阴极射线管（Cathode Ray Tube，CRT）：示波器等早期显示设备
+    * 逐行扫描显示
+    * 隔行扫描显示（基于人的视觉暂留效应，一帧奇数行，一帧偶数行，现在有时用于视频压缩）
+
+    <img src="image/CRT.png" width=300px>
+
+* 直接将显存中一块区域的数据对应到屏幕上
+* 液晶显示器（Liquid Crystal Display，LCD） 
+    利用偏振光的波动特性，例如下图中光先通过右侧的竖向光栅，波动方向变为竖直，若是图下方的情况在通过横向光栅时会全部被挡下来，而在图上方的光通过中间的一系列液晶对光的振动方向进行了偏转，因此能够通过左侧横向光栅，从而被看到。
+
+    <img src="image/LCD.png" width=300px>
+* LED（Light emitting diode，发光二极管） 发光二极管阵列组成的屏幕
+* 电子墨水屏：Kindle（Electronic Ink Display）
+    通电墨水上浮，断电墨水下降：
+    <img src="image/电子墨水屏.png" width=300px>
+### **9.4 Triangles**
+
+* 为什么三角形作为图形学的基本图元？
+    * 三角形是最基础的多边形，并且能组合成任意复杂多边形
+    * 三角形的三个顶点一定在同一个平面上
+    * 判断一个点是否在三角形的内部十分方便（叉积应用）
+    * 已知三个顶点的属性，容易对三角形内部的点属性进行插值。
+
+* 三角形光栅化
+
+    * **采样**屏幕上的像素点，判断它是否在三角形内部。
+
+        <img src="image/像素采样.png" width=400px>
+
+        ```
+        for(int x=0; x < xmax; x++){
+            for(int y=0; y < ymax; y++){
+                PixelArray[x][y] = IsInside(Triangle, x+0.5, y+0.5);//像素位于三角形则置1，否则置0.
+            }
+        }
+        ```
+
+    * 如何判断点是否在三角形内部
+
+        向量叉积
+
+        > 注：如果点在两个三角形的边界上怎么算？自行定义即可。
+
+    * 优化方法：AABB轴向包围盒，Bounding Box
+
+        因为这样一个长方形的包围盒的范围由三角形三个顶点中最小和最大的x，y坐标框定，所以包围盒刚好容纳了三角形可能覆盖的所有区域。
+
+        这样就只需要对包围盒内部（图中蓝色部分）的像素点进行IsInside的判定，节省了运算时间。
+
+        <img src="image/光栅化中的包围盒.png" width=400px>
+    
+    * 优化方法：Incremental Triangle Traversal
+
+        对三角形每一行的最左端到最右端像素逐行计算。
         
+        <img src="image/光栅化的优化2.png" width=400px>
 
+        这适用于某些包围盒优化不明显的三角形，例如瘦长的或倾斜占包围盒比例过小的情况：
 
+        <img src="image/特殊情况.png" width=400px>
+
+    * 现实世界中的像素点：每个像素都是由R，G，B不同的颜色点组成的（每个颜色的都是光通过不同颜色的滤镜呈现的）：
+
+    <img src="image/实际像素点.png" width=600px>
+
+    还可以看到三星Galaxy的屏幕中绿的点要比红蓝多，这是因为人眼对绿色更为敏感，这种排列图案称为Bayer Pattern。
