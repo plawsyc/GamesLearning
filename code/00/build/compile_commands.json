@@ -1,0 +1,7 @@
+[
+{
+  "directory": "D:/10 CG&GAMES/Gameslearning/GamesLearning/code/00/build",
+  "command": "C:\\MinGW\\bin\\mingw32-g++.exe  @CMakeFiles/Transform.dir/includes_CXX.rsp -g -o CMakeFiles\\Transform.dir\\main.cpp.obj -c \"D:\\10 CG&GAMES\\Gameslearning\\GamesLearning\\code\\00\\main.cpp\"",
+  "file": "D:/10 CG&GAMES/Gameslearning/GamesLearning/code/00/main.cpp"
+}
+]

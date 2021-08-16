@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\Transform.dir/objects.a
+C:\MinGW\bin\ar.exe cr CMakeFiles\Transform.dir/objects.a @CMakeFiles\Transform.dir\objects1.rsp
+C:\MinGW\bin\mingw32-g++.exe -g -Wl,--whole-archive CMakeFiles\Transform.dir/objects.a -Wl,--no-whole-archive -o Transform.exe -Wl,--out-implib,libTransform.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Transform.dir\linklibs.rsp
