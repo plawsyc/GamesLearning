@@ -1,3 +1,6 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/code/pa0"
+    "cmake.sourceDirectory": "${workspaceFolder}/code/pa0",
+    "files.associations": {
+        "eigen": "cpp"
+    }
 }
