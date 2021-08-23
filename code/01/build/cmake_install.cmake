@@ -1,8 +1,8 @@
-# Install script for directory: D:/10 CG&GAMES/Gameslearning/GamesLearning/code/00
+# Install script for directory: D:/10 CG&GAMES/Gameslearning/GamesLearning/code/01
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/Transform")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/Rasterizer")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,7 +34,7 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/MinGW/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/mingw64/bin/objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/10 CG&GAMES/Gameslearning/GamesLearning/code/00/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/10 CG&GAMES/Gameslearning/GamesLearning/code/01/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

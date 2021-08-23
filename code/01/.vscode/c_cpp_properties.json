@@ -5,14 +5,14 @@
             "includePath": [
                 "${workspaceFolder}",
                 "C:\\Program Files (x86)\\Eigen3\\include\\eigen3",
-                "D:\\11_Envs\\c++_libsource\\opencv\\build\\x64\\mingw\\install\\include"
+                "D:\\11_Envs\\c++_libsource\\opencv\\build\\include"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:\\MinGW\\bin\\g++.exe",
+            "compilerPath": "C:\\mingw64\\bin\\g++.exe",
             "cppStandard": "c++17",
             "intelliSenseMode": "msvc-x64",
             "configurationProvider": "ms-vscode.cmake-tools"
