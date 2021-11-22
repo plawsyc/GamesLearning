@@ -1,0 +1,3 @@
+D:/10 CG&GAMES/Gameslearning/GamesLearning/build/CMakeFiles/edit_cache.dir
+D:/10 CG&GAMES/Gameslearning/GamesLearning/build/CMakeFiles/Rasterizer.dir
+D:/10 CG&GAMES/Gameslearning/GamesLearning/build/CMakeFiles/rebuild_cache.dir
