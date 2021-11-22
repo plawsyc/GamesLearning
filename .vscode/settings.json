@@ -2,5 +2,7 @@
     "cmake.sourceDirectory": "${workspaceFolder}/code/01",
     "files.associations": {
         "eigen": "cpp"
-    }
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "cmake.generator": "MinGW Makefiles"
 }
